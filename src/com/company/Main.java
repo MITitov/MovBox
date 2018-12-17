@@ -3,7 +3,7 @@ package com.company;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Collections;
-import java.util.HashSet;
+//import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,21 +32,25 @@ public class Main {
           String[] sarr = br.readLine().split(" ");
           for (int k = 0; k < sarr.length; k++) {
             field.table[j][k].setType(Integer.valueOf(sarr[k]));
-
+            field.setInitial(j,k,Integer.valueOf(sarr[k]));
             switch (Integer.valueOf(sarr[k])) {
               case 1:
                 state.setB1(new Cell(1, j, k));
                 field.table[j][k].setType(0);
+                field.setInitial(j,k,0);
                 break;
               case 2:
                 state.setB2(new Cell(2, j, k));
                 field.table[j][k].setType(0);
+                field.setInitial(j,k,0);
                 break;
               case -1:
                 field.f1 = new Cell(-1, j, k);
+                field.setInitial(j,k,-1);
                 break;
               case -2:
                 field.f2 = new Cell(-2, j, k);
+                field.setInitial(j,k,-2);
                 break;
               case 9:
 //                field.blocks.add(new Cell(9, j, k));
@@ -57,11 +61,14 @@ public class Main {
         if (field.checkProbability()) {
           turns.add(state);
 //        field.print(state.b1,state.b2);
-//        state = field.moveUp(state.b1, state.b2);
+//        state = field.moveRight(state.b1, state.b2);
 //        field.print(state.b1,state.b2);
 //        state = field.moveDown(state.b1, state.b2);
 //        field.print(state.b1,state.b2);
-          //output
+//        state = field.moveLeft(state.b1, state.b2);
+//        field.print(state.b1,state.b2);
+//        state = field.moveUp(state.b1, state.b2);
+//        field.print(state.b1,state.b2);
 
           finish:
           for (int j = 0; j < 8; j++) {
@@ -70,7 +77,7 @@ public class Main {
               State start = (State) it.next();
 //            State cur = new State(new Cell(0, 0, 0), new Cell(0, 0, 0));
               if (field.check(start)) {
-                result = j;
+                result = j + 1;
                 break finish;
               }
               State cur = field.moveLeft(start.b1, start.b2);

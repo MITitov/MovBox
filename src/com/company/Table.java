@@ -4,17 +4,24 @@ public class Table {
   public Cell[][] table;
   private int h, w;
   Cell f1, f2;
+  private int[][] initial;
 
   public Table(int h, int w) {
     this.h = h;
     this.w = w;
     this.table = new Cell[h][w];
+    initial = new int[h][w];
     for (int i = 0; i < h; i++) {
       for (int j = 0; j < w; j++) {
         table[i][j] = new Cell(0);
+        initial[i][j] = 0;
       }
     }
 
+  }
+
+  public void setInitial(int i,int j,int type) {
+    this.initial[i][j] = type;
   }
 
   public Cell[][] getTable() {
@@ -31,15 +38,14 @@ public class Table {
     table[s.b2.h][s.b2.w].type = 2;
     boolean moved = false;
     if (s.b1.h < s.b2.h) {
-      if (s.b1.h == 1) {
-      } else {
+      if (s.b1.h != 0) {
         do {
           moved = false;
           if (s.b1.h != 0) {
             if (table[s.b1.h - 1][s.b1.w].type <= 0) {
               moved = true;
               table[s.b1.h - 1][s.b1.w].type = 1;
-              table[s.b1.h][s.b1.w].type = 0;
+              table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
               s.b1.h--;
             }
           }
@@ -50,20 +56,20 @@ public class Table {
         if (s.b2.h != 0) {
           if (table[s.b2.h - 1][s.b2.w].type <= 0) {
             table[s.b2.h - 1][s.b2.w].type = 2;
-            table[s.b2.h][s.b2.w].type = 0;
+            table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
             s.b2.h--;
             moved = true;
           }
         }
       } while (moved && s.b2.h > 0);
     } else {
-      if (s.b2.h == 1) {
+      if (s.b2.h != 0) {
         do {
           moved = false;
           if (table[s.b2.h - 1][s.b2.w].type <= 0) {
             moved = true;
             table[s.b2.h - 1][s.b2.w].type = 2;
-            table[s.b2.h][s.b2.w].type = 0;
+            table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
             s.b2.h--;
           }
         } while (moved && s.b2.h > 0);
@@ -73,15 +79,17 @@ public class Table {
         if (s.b1.h != 0) {
           if (table[s.b1.h - 1][s.b1.w].type <= 0) {
             table[s.b1.h - 1][s.b1.w].type = 1;
-            table[s.b1.h][s.b1.w].type = 0;
+            table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
             s.b1.h--;
             moved = true;
           }
         }
       } while (moved && s.b1.h > 0);
     }
-    table[s.b1.h][s.b1.w].type = 0;
-    table[s.b2.h][s.b2.w].type = 0;
+    table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
+    table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
+//    table[s.b1.h][s.b1.w].type = 0;
+//    table[s.b2.h][s.b2.w].type = 0;
     return s;
   }
 
@@ -91,15 +99,15 @@ public class Table {
     table[s.b1.h][s.b1.w].type = 1;
     table[s.b2.h][s.b2.w].type = 2;
     if (s.b1.h > s.b2.h) {
-      if (s.b1.h != h) {
-      } else {
+      if (s.b1.h != h -1) {
+//      } else {
         do {
           moved = false;
           if (s.b1.h != h - 1) {
             if (table[s.b1.h + 1][s.b1.w].type <= 0) {
               moved = true;
               table[s.b1.h + 1][s.b1.w].type = 1;
-              table[s.b1.h][s.b1.w].type = 0;
+              table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
               s.b1.h++;
             }
           }
@@ -110,7 +118,7 @@ public class Table {
         if (s.b2.h != h - 1) {
           if (table[s.b2.h + 1][s.b2.w].type <= 0) {
             table[s.b2.h + 1][s.b2.w].type = 2;
-            table[s.b2.h][s.b2.w].type = 0;
+            table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
             s.b2.h++;
             moved = true;
           }
@@ -124,7 +132,7 @@ public class Table {
             if (table[s.b2.h + 1][s.b2.w].type <= 0) {
               moved = true;
               table[s.b2.h + 1][s.b2.w].type = 2;
-              table[s.b2.h][s.b2.w].type = 0;
+              table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
               s.b2.h++;
             }
           }
@@ -135,15 +143,15 @@ public class Table {
         if (s.b1.h != h - 1) {
           if (table[s.b1.h + 1][s.b1.w].type <= 0) {
             table[s.b1.h + 1][s.b1.w].type = 1;
-            table[s.b1.h][s.b1.w].type = 0;
+            table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
             s.b1.h++;
             moved = true;
           }
         }
       } while (moved && s.b1.h < h - 1);
     }
-    table[s.b1.h][s.b1.w].type = 0;
-    table[s.b2.h][s.b2.w].type = 0;
+    table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
+    table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
     return s;
   }
 
@@ -154,14 +162,14 @@ public class Table {
     table[s.b2.h][s.b2.w].type = 2;
     if (s.b1.w > s.b2.w) {
       if (s.b1.w != w - 1) {
-      } else {
+//      } else {
         do {
           moved = false;
           if (s.b1.w != w - 1) {
             if (table[s.b1.h][s.b1.w + 1].type <= 0) {
               moved = true;
               table[s.b1.h][s.b1.w + 1].type = 1;
-              table[s.b1.h][s.b1.w].type = 0;
+              table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
               s.b1.w++;
             }
           }
@@ -172,7 +180,7 @@ public class Table {
         if (s.b2.w != w - 1) {
           if (table[s.b2.h][s.b2.w + 1].type <= 0) {
             table[s.b2.h][s.b2.w + 1].type = 2;
-            table[s.b2.h][s.b2.w].type = 0;
+            table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
             s.b2.w++;
             moved = true;
           }
@@ -186,7 +194,7 @@ public class Table {
             if (table[s.b2.h][s.b2.w + 1].type <= 0) {
               moved = true;
               table[s.b2.h][s.b2.w + 1].type = 2;
-              table[s.b2.h][s.b2.w].type = 0;
+              table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
               s.b2.w++;
             }
           }
@@ -197,15 +205,15 @@ public class Table {
         if (s.b1.w != w - 1) {
           if (table[s.b1.h][s.b1.w + 1].type <= 0) {
             table[s.b1.h][s.b1.w + 1].type = 1;
-            table[s.b1.h][s.b1.w].type = 0;
+            table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
             s.b1.w++;
             moved = true;
           }
         }
       } while (moved && s.b1.w < w - 1);
     }
-    table[s.b1.h][s.b1.w].type = 0;
-    table[s.b2.h][s.b2.w].type = 0;
+    table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
+    table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
     return s;
   }
 
@@ -216,14 +224,14 @@ public class Table {
     boolean moved = false;
     if (s.b1.w < s.b2.w) {
       if (s.b1.w != 0) {
-      } else {
+//      } else {
         do {
           moved = false;
           if (s.b1.w != 0) {
             if (table[s.b1.h][s.b1.w - 1].type <= 0) {
               moved = true;
               table[s.b1.h][s.b1.w - 1].type = 1;
-              table[s.b1.h][s.b1.w].type = 0;
+              table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
               s.b1.w--;
             }
           }
@@ -234,7 +242,7 @@ public class Table {
         if (s.b2.w != 0) {
           if (table[s.b2.h][s.b2.w - 1].type <= 0) {
             table[s.b2.h][s.b2.w - 1].type = 2;
-            table[s.b2.h][s.b2.w].type = 0;
+            table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
             s.b2.w--;
             moved = true;
           }
@@ -248,7 +256,7 @@ public class Table {
             if (table[s.b2.h][s.b2.w - 1].type <= 0) {
               moved = true;
               table[s.b2.h][s.b2.w - 1].type = 2;
-              table[s.b2.h][s.b2.w].type = 0;
+              table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
               s.b2.w--;
             }
           }
@@ -259,15 +267,15 @@ public class Table {
         if (s.b1.w != 0) {
           if (table[s.b1.h][s.b1.w - 1].type <= 0) {
             table[s.b1.h][s.b1.w - 1].type = 1;
-            table[s.b1.h][s.b1.w].type = 0;
+            table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
             s.b1.w--;
             moved = true;
           }
         }
       } while (moved && b1.w > 0);
     }
-    table[s.b1.h][s.b1.w].type = 0;
-    table[s.b2.h][s.b2.w].type = 0;
+    table[s.b1.h][s.b1.w].type = initial[s.b1.h][s.b1.w];
+    table[s.b2.h][s.b2.w].type = initial[s.b2.h][s.b2.w];
     return s;
   }
 
