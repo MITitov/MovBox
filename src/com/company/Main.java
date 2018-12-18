@@ -79,34 +79,42 @@ public class Main {
 //        field.print(state.b1,state.b2);
 //        state = field.moveUp(state.b1, state.b2);
 //        field.print(state.b1,state.b2);
-
+          int old = 0;
           finish:
           for (int j = 0; j < 9; j++) {
-            for (int k = 0; k < zeroState; k++) {
+            for (int k = old; k < zeroState; k++) {
               State start = states[k];
+              State cur;
               if (field.check(start)) {
                 result = j;
                 route = start.route;
                 break finish;
               }
-              State cur = field.moveLeft(start.b1, start.b2);
-              cur.route = start.route + Math.pow(10, j);
-//              turns.add(cur);
-              if (put(states, sss, cur)) sss++;
-//              states[sss] = cur;
+              if ((int) (start.route / Math.pow(10,j-1)) != 1) {
+                cur = field.moveLeft(start.b1, start.b2);
+                cur.route = start.route + Math.pow(10, j * 1);
+                if (put(states, sss, cur)) sss++;
+              }
 
-              cur = field.moveRight(start.b1, start.b2);
-              cur.route = start.route + Math.pow(10, j) * 2;
-              if (put(states, sss, cur)) sss++;
+              if ((int) (start.route / Math.pow(10,j-1)) != 2) {
+                cur = field.moveRight(start.b1, start.b2);
+                cur.route = start.route + Math.pow(10, j) * 2;
+                if (put(states, sss, cur)) sss++;
+              }
 
-              cur = field.moveDown(start.b1, start.b2);
-              cur.route = start.route + Math.pow(10, j) * 3;
-              if (put(states, sss, cur)) sss++;
+              if ((int)(start.route / Math.pow(10,j-1)) != 3) {
+                cur = field.moveDown(start.b1, start.b2);
+                cur.route = start.route + Math.pow(10, j) * 3;
+                if (put(states, sss, cur)) sss++;
+              }
 
-              cur = field.moveUp(start.b1, start.b2);
-              cur.route = start.route + Math.pow(10, j) * 4;
-              if (put(states, sss, cur)) sss++;
+              if ((int)(start.route / Math.pow(10,j-1)) != 3) {
+                cur = field.moveUp(start.b1, start.b2);
+                cur.route = start.route + Math.pow(10, j) * 4;
+                if (put(states, sss, cur)) sss++;
+              }
             }
+            old = zeroState;
             zeroState = sss;
           }
         }
