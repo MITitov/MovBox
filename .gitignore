@@ -8,6 +8,8 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+.metadata
+.recommenders
 # Generated files
 .idea/**/contentModel.xml
 
