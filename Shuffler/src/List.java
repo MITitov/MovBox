@@ -1,9 +1,21 @@
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name ="list")
+@XmlRootElement
 public class List {
+	
+	@XmlElement(name="head")
 	private Node head;
+	@XmlElement(name="tail")
 	private Node tail;
+	@XmlElement(name="size")
 	private int size;
 
+	@XmlType(name="node")
 	private static class Node {
+		@XmlElement(name="value")
 		private Integer value;
 		private Node next;
 		private Node prev;
