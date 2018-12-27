@@ -13,27 +13,25 @@ public class Shuffler {
 		System.out.print("Enter numer of tests: ");
 		int tests = sc.nextInt();
 		for (int i = 0; i < tests; i++) {
-			List list = new List();
-			list.push(1);
-			list.push(2);
-			list.push(3);
-list.popT();
+			// List list = new List();
+			// list.push(1);
+			// list.push(2);
+			// list.push(3);
+			//
+			// StringWriter writer = new StringWriter();
+			// JAXBContext context = JAXBContext.newInstance(List.class);
+			// Marshaller marshaller = context.createMarshaller();
+			// marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
+			// Boolean.TRUE);
+			//
+			// marshaller.marshal(list, writer);
+			// System.out.println(writer.toString());
 
-			StringWriter writer = new StringWriter();
-			JAXBContext context = JAXBContext.newInstance(List.class);
-			Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-					Boolean.TRUE);
-
-			marshaller.marshal(list, writer);
-			System.out.println(writer.toString());
-
-			System.out.println("Enter number of cards in test #" + (i + 1));
-			int size = sc.nextInt();
 			System.out.println("Enter cards:");
 			sc.nextLine();
 			String input = sc.nextLine();
 			String[] inputArr = input.split(" ");
+			int size = inputArr.length;
 			int[] cards = new int[size];
 			int[][] arr = new int[5000000][size];
 			for (int j = 0; j < inputArr.length; j++) {
@@ -83,34 +81,71 @@ list.popT();
 		return true;
 	}
 
+	// public static int[] shuffle(int[] arr, int x, int size) {
+	// int[] res = new int[size];
+	// for (int i = 0; i < arr.length; i++) {
+	// int tt = i - size / 2;
+	// int pos = 0;
+	// if (i < size / 2) {
+	// int t = x + tt;
+	// if (t < 0) {
+	// pos = i;
+	// } else {
+	// pos = i + t + 1 > size / 2 ? i + size / 2 : i + t + 1;
+	// }
+	// } else {
+	// int t = x - tt > 0 ? x - tt : 0;
+	// if (t > size / 2) {
+	// pos = i - size / 2;
+	// } else {
+	// pos = i - t;
+	// }
+	// }
+	// res[pos] = arr[i];
+	// }
+	// return res;
+	// }
 	public static int[] shuffle(int[] arr, int x, int size) {
 		int[] res = new int[size];
-		for (int i = 0; i < arr.length; i++) {
-			int tt = i - size / 2;
-			int pos = 0;
-			if (i < size / 2) {
-				int t = x + tt;
-				if (t < 0) {
-					pos = i;
+		int half = size / 2;
+		int count = 0;
+		if (x > half) {
+			x-= half;
+			for (int i = 0; i <x+1; i++) {
+				res[i] = arr[i+half];
+			}
+			for (int i = x+1; i < size - x-1; i++) {
+				if (count % 2 == 0) {
+					res[i] = arr[++count / 2];
+					//
 				} else {
-					pos = i + t + 1 > size / 2 ? i + size / 2 : i + t + 1;
-				}
-			} else {
-				int t = x - tt > 0 ? x - tt : 0;
-				if (t > size / 2) {
-					pos = i - size / 2;
-				} else {
-					pos = i - t;
+					res[i] = arr[i + half - ++count/2];
 				}
 			}
-			res[pos] = arr[i];
+			for (int i = size - x-1; i < size; i++) {
+				res[i] = arr[i-half];
+			}			
+		} else {
+			for (int i = 0; i < half - x; i++) {
+				res[i] = arr[i];
+			}
+			for (int i = half - x; i < half + x; i++) {
+				if (count % 2 == 0) {
+					res[i] = arr[count++ / 2 + half];
+				} else {
+					res[i] = arr[i - ++count / 2];
+				}
+			}
+			for (int i = half + x; i < size; i++) {
+				res[i] = arr[i];
+			}
 		}
 		return res;
 	}
 
 	public static boolean checkSorted(int[] arr) {
 		int temp = arr[1] - arr[0];
-		for (int i = 1; i < arr.length - 1; i++) {
+		for (int i = 1; i < arr.length / 2; i++) {
 			if (arr[i + 1] - arr[i] != 1) {
 				return false;
 			}
