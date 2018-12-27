@@ -47,6 +47,7 @@ public class Shuffler {
 			 printArr(shuffle(cards, x, size));
 			 }
 		}
+		sc.close();
 	}
 
 	public static boolean equalArr(int[] a1, int[] a2) {
