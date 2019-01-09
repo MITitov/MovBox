@@ -8,7 +8,9 @@ import javax.xml.bind.Marshaller;
 public class Shuffler {
 
 	public static void main(String[] args) throws JAXBException {
-		// System.out.println(pow(8, 12));
+//		System.out.println(pow(8, 12));
+//		System.out.println(recPOW(8, 12));
+//		System.out.print(Math.pow(8, 12));
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter numer of tests: ");
 		int tests = sc.nextInt();
@@ -33,10 +35,24 @@ public class Shuffler {
 			String[] inputArr = input.split(" ");
 			int size = inputArr.length;
 			int[] cards = new int[size];
+							
 			int[][] arr = new int[5000000][size];
 			for (int j = 0; j < inputArr.length; j++) {
 				cards[j] = Integer.valueOf(inputArr[j]);
 			}
+			MergeSort ob = new MergeSort();
+			int arr1[] = {12, 11, 13, 5, 6, 7}; 
+			  
+	        System.out.println("Given Array"); 
+	        printArr(arr1); 
+	  	        
+//	        ob.sort(arr1, 0, arr1.length-1); 
+	  quickSort(arr1, 0, arr1.length-1);
+	        System.out.println("\nSorted array"); 
+	        printArr(arr1); 
+			
+			
+			
 			// int ss = 1;
 			// int sst = 0;
 			// int ssa = 0;
@@ -176,4 +192,158 @@ public class Shuffler {
 		}
 		return res;
 	}
+
+	public static int recPOW(int a,int n) {
+		int res;
+		if (n==1) return a;
+		if (n % 2 == 0) {
+			res = recPOW(a,n/2);
+			return res*res;
+		} else {
+			res = recPOW(a, (n-1)/2);
+			return res*res*a;
+		}
+	}
+	
+	static class MergeSort 
+	{ 
+	    void merge(int arr[], int l, int m, int r) 
+	    { 
+	        int n1 = m - l + 1; 
+	        int n2 = r - m; 
+
+	        int L[] = new int [n1]; 
+	        int R[] = new int [n2]; 
+	  
+	        for (int i=0; i<n1; ++i) 
+	            L[i] = arr[l + i]; 
+	        for (int j=0; j<n2; ++j) 
+	            R[j] = arr[m + 1+ j]; 
+
+	        int i = 0, j = 0, k = 1; 
+	   	       
+	        while (i < n1 && j < n2) 
+	        { 
+	            if (L[i] <= R[j]) 
+	            { 
+	                arr[k] = L[i]; 
+	                i++; 
+	            } 
+	            else
+	            { 
+	                arr[k] = R[j]; 
+	                j++; 
+	            } 
+	            k++; 
+	        } 
+	  
+	        while (i < n1) 
+	        { 
+	            arr[k] = L[i]; 
+	            i++; 
+	            k++; 
+	        } 
+	  
+	        while (j < n2) 
+	        { 
+	            arr[k] = R[j]; 
+	            j++; 
+	            k++; 
+	        } 
+	    } 
+	  
+	    void sort(int arr[], int l, int r) 
+	    { 
+	        if (l < r) 
+	        { 
+	            int m = (l+r)/2; 
+	  
+	            sort(arr, l, m); 
+	            sort(arr , m+1, r); 
+
+	            merge(arr, l, m, r); 
+	        } 
+	    } 
+	}
+	public static void quickSort(int[] arr, int l, int r) {
+		int s = partitionQ(arr,l,r);
+		if (l<r) {
+			quickSort(arr, l, s-1);
+			quickSort(arr, s+1, r);
+		}
+	}
+
+	private static int partitionQ(int[] arr, int l, int r) {
+		int p = arr[l];
+		
+		int i = l-1;
+		int j = r+1;
+		
+		while (true) {					
+			do { 
+				i++;
+			}
+			while (arr[i]<=p);
+			do {
+				j--;
+			}
+			while (arr[j]>=p); 
+			if (i>=j) {
+				return j;
+//                int temp = arr[i]; 
+//                arr[i] = arr[j]; 
+//                arr[j] = temp; 
+			}
+			int temp = arr[i]; 
+	        arr[i] = arr[j]; 
+	        arr[j] = temp;
+		}
+         
+//		return j;
+		
+	}
+
+	static int partition(int arr[], int low, int high) 
+    { 
+        int pivot = arr[high];  
+        int i = (low-1); // index of smaller element 
+        for (int j=low; j<high; j++) 
+        { 
+            // If current element is smaller than or 
+            // equal to pivot 
+            if (arr[j] <= pivot) 
+            { 
+                i++; 
+  
+                // swap arr[i] and arr[j] 
+                int temp = arr[i]; 
+                arr[i] = arr[j]; 
+                arr[j] = temp; 
+            } 
+        } 
+  
+        // swap arr[i+1] and arr[high] (or pivot) 
+        int temp = arr[i+1]; 
+        arr[i+1] = arr[high]; 
+        arr[high] = temp; 
+  
+        return i+1; 
+    } 
+  
+  
+
+    static void sort(int arr[], int low, int high) 
+    { 
+        if (low < high) 
+        { 
+            /* pi is partitioning index, arr[pi] is  
+              now at right place */
+            int pi = partition(arr, low, high); 
+  
+            // Recursively sort elements before 
+            // partition and after partition 
+            sort(arr, low, pi-1); 
+            sort(arr, pi+1, high); 
+        } 
+    } 
 }
