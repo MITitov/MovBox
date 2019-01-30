@@ -1,0 +1,40 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+
+	static Integer 
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(
+				new FileReader(
+						"C:\\Users\\Maksim\\Projects\\MovBox\\Coloring\\sample_input.txt"));
+		String str = br.readLine();
+		int test = Integer.valueOf(str);
+		
+		for (int i = 0; i < test; i++) {
+			String[] size = br.readLine().split(" ");
+			int h = Integer.valueOf(size[0]);
+			int w = Integer.valueOf(size[1]);
+			Cell[][] field = new Cell[h][w];
+			for (int j = 0; j < h; j++) {
+				String[] sarr = br.readLine().split(" ");
+				for (int k = 0; k < w; k++) {
+					field[j][k] = new Cell(Integer.valueOf(sarr[k]));
+
+				}
+			}
+
+			for (int j = 0; j < h; j++) {
+				for (int k = 0; k < w; k++) {
+					System.out.print(field[j][k].getType());
+				}
+				System.out.println();
+			}
+		}
+		br.close();
+	}
+}
