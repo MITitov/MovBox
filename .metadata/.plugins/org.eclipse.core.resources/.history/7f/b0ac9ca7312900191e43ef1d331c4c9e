@@ -1,0 +1,108 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		// TODO Auto-generated method stub
+		char[] init = new char[5];
+		File file = new File(
+				"C:\\Users\\Maksim\\Projects\\MovBox\\NumComparison\\sample_input.txt");
+		Scanner sc = new Scanner(file);
+		// while (sc.hasNext()) {
+		// }
+		String a = "31728";
+		String b = "18211";
+		char[] ar = a.toCharArray();
+		char[] br = b.toCharArray();
+List list = new List();
+list.put(1);
+list.put(2);
+list.put(3);
+list.print();
+list.delete(2);
+list.print();
+	}
+
+	public static int countC(char[] a, char[] b) {
+		int result = 0;
+		for (int i = 0; i < a.length; i++) {
+			if (a[i] == b[i])
+				result++;
+		}
+		return result;
+	}
+
+	public static void countD(char[] a, char[] b) {
+
+	}
+
+	public static void mergeSort() {
+
+	}
+
+	public static void binarySearch() {
+
+	}
+
+	public static class List {
+		Node tail, head;
+		int size;
+		public List() {
+			tail=null;
+			head=null;
+			size = 0;
+		}
+		public void print() {
+			Node t = tail;
+			String s="";
+			for (int i =0;i<size;i++) {
+				s = s + " " + t.value;
+				t=t.next;
+			}
+			System.out.println(s.trim());
+		}
+		public void put(int val) {
+			Node n = new Node(val);
+			if (size == 0) {
+				head=n;
+				tail=n;
+				n.next=n;
+				n.prev=n;
+			} else {
+				head.next=n;
+				n.prev=head;
+				head=n;
+			}
+			size++;
+		}
+		
+		public void delete(Node node) {
+			node.prev.next = node.next;
+			node.next.prev=node.prev;
+		}
+		
+		public void delete(int val) {
+			Node t = tail;
+			if (t.value == val) {
+				tail = tail.next;  
+			}
+			
+			while (t.next != null) {
+				if (t.next.value == val) {
+					t = t.next.next;
+					return;
+				}
+			}			
+		}
+		public class Node {
+			int value;
+			Node next,prev;
+			
+			public Node(int val) {
+				value=val;				
+			}
+		}
+	}
+}
